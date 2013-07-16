@@ -1,0 +1,82 @@
+/*
+ * irq_stubs.c
+ *
+ *  Created on: Mar 4, 2013
+ *      Author: Igor
+ */
+#include <msp430g2553.h>
+#include <config_lib.h>
+
+#pragma vector=TIMER0_A0_VECTOR
+__interrupt void t0_a0_Stub (void)
+{
+	for (;;);
+}
+
+#pragma vector=TIMER1_A0_VECTOR
+__interrupt void t1_a0_Stub (void)
+{
+	for (;;);
+}
+
+#ifndef CONF_TIMER_A0_IE
+#pragma vector=TIMER0_A1_VECTOR
+__interrupt void t0_a1_Stub (void)
+{
+	for (;;);
+}
+#endif
+
+#pragma vector=TIMER1_A1_VECTOR
+__interrupt void t1_a1_Stub (void)
+{
+	for (;;);
+}
+
+#pragma vector=WDT_VECTOR
+__interrupt void wdt_Stub (void)
+{
+	for (;;);
+}
+
+#pragma vector = PORT1_VECTOR
+__interrupt void port1_Stub (void)
+{
+		for (;;);
+}
+
+//#pragma vector=USI_VECTOR
+
+#ifndef CONF_ADC10_IE
+#pragma vector=ADC10_VECTOR
+__interrupt void adc10_Stub (void)
+{
+	for (;;);
+}
+#endif
+
+#pragma vector=PORT2_VECTOR
+__interrupt void port2_Stub (void)
+{
+	for (;;);
+}
+
+#pragma vector=NMI_VECTOR
+__interrupt void nmi_Stub (void)
+{
+	for (;;);
+}
+
+#pragma vector=COMPARATORA_VECTOR
+__interrupt void comparator_Stub (void)
+{
+	for (;;);
+}
+
+#ifndef UART_RX
+#pragma vector = USCIAB0RX_VECTOR
+__interrupt void uscib0rx_Stub (void)
+{
+	for (;;);
+}
+#endif
