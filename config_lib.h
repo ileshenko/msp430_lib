@@ -10,6 +10,7 @@
 #define CONF_TIMER_A0_IE /* Inerrupt Enabled */
 
 /* UART section */
+//#define UART_BAUDRATE 300
 //#define UART_BAUDRATE 9600
 #define UART_BAUDRATE 115200
 #define UART_TX

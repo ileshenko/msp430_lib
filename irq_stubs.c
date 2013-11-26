@@ -80,3 +80,11 @@ __interrupt void uscib0rx_Stub (void)
 	for (;;);
 }
 #endif
+
+#ifndef UART_TX
+#pragma vector = USCIAB0TX_VECTOR
+__interrupt void uscib0tx_Stub (void)
+{
+	for (;;);
+}
+#endif
