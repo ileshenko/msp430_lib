@@ -1,7 +1,7 @@
 #ifndef _LEDS_H_
 #define _LEDS_H_
 
-#include <config.h>
+#include <config_lib.h>
 
 void leds_init(void);
 void leds_hello(void);

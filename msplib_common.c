@@ -1,4 +1,4 @@
-#include "common.h"
+#include "msplib_common.h"
 #include <msp430g2553.h>
 
 void default_state(void)

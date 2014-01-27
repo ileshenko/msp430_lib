@@ -1,5 +1,5 @@
 #include <msp430g2553.h>
-#include <config.h>
+#include <config_lib.h>
 #include "thermistor.h"
 
 

@@ -56,7 +56,7 @@ void leds_hello(void)
 	int i;
 	volatile int j;
 
-	for (i = 0; i < 10; i++)
+	for (i = 5; i; i--)
 	{
 		led_toggle();
 		j = 0x3fff;

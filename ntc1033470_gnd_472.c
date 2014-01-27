@@ -99,6 +99,7 @@ const int ntc1033470[MAXTEMP] = {
 		183,
 		179,
 		176,
+#if MAXTEMP > 100
 		172,
 		168,
 		165,
@@ -139,4 +140,5 @@ const int ntc1033470[MAXTEMP] = {
 		82,
 		80,
 		79,
+#endif
 };

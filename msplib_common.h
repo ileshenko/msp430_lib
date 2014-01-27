@@ -1,5 +1,5 @@
-#ifndef _COMMON_H_
-#define _COMMON_H_
+#ifndef _MSPLIB_COMMON_H_
+#define _MSPLIB_COMMON_H_
 
 //#define UART_BAUDRATE 9600
 #define MAGIC_BEGIN 0xAC
