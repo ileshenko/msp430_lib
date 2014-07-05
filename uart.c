@@ -1,9 +1,8 @@
 
+#include <msp430g2553.h>
 #include <config_lib.h>
 #include "uart.h"
 #include <string.h>
-
-#include <msp430g2553.h>
 
 //char report[128];
 char *to_print;
@@ -177,8 +176,10 @@ __interrupt void USCIAB0TX_ISR(void)
 		return;
 
 	IE2 &= ~UCA0TXIE;                       // Disable USCI_A0 TX interrupt
+#ifdef UART_TX
 	if (tx_ready_cb)
 		tx_ready_cb();
+#endif
 }
 
 #ifdef UART_RX
