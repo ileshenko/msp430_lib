@@ -1,65 +1,56 @@
 #include <msp430g2553.h>
 #include <config_lib.h>
 #include "leds.h"
-//#include "main.h"
-
-#if LEDP == 1
-#define PxDIR  P1DIR
-#define PxOUT P1OUT
-#define PxSEL P1SEL
-#define PxREN P1REN
-#elif LEDP == 2
-#define PxDIR  P2DIR
-#define PxOUT P2OUT
-#define PxSEL P2SEL
-#define PxREN P2REN
-#else
-#error define LED port
-#endif
 
 void leds_init(void)
 {
-	PxDIR |= LEDS;			// OUT
-	PxSEL &= ~LEDS;			// GPIO mode
-	PxREN &= ~LEDS;
+#if LEDS_P1
+	P1DIR |= LEDS_P1;			// OUT
+	P1SEL &= ~LEDS_P1;			// GPIO mode
+	P1REN &= ~LEDS_P1;
 
-	PxOUT &= ~LEDS;			// Switch Off
-}
-
-void led_toggle(void)
-{
-	PxOUT ^= LEDB;
-}
-
-#ifdef OUT1B
-void out1_turn(int on)
-{
-	if (on)
-		PxOUT |= OUT1B;
-	else
-		PxOUT &= ~OUT1B;
-}
+	P1OUT &= ~LEDS_P1;			// Switch Off
 #endif
+#if LEDS_P2
+	P2DIR |= LEDS_P2;			// OUT
+	P2SEL &= ~LEDS_P2;			// GPIO mode
+	P2REN &= ~LEDS_P2;
 
-#ifdef OUT2B
-void out2_turn(int on)
-{
-	if (on)
-		PxOUT |= OUT2B;
-	else
-		PxOUT &= ~OUT2B;
-}
+	P2OUT &= ~LEDS_P2;			// Switch Off
 #endif
+}
 
-void leds_hello(void)
+void led_toggle(led_role_t led)
 {
-	int i;
+	volatile unsigned char *PxOUT = ((led & PORT_MASK) == PORT_1) ? &P1OUT : &P2OUT;
+
+	*PxOUT ^= led & ~PORT_MASK;
+}
+
+void led_set(led_role_t led, int val)
+{
+	volatile unsigned char *PxOUT = ((led & PORT_MASK) == PORT_1) ? &P1OUT : &P2OUT;
+
+	if (val)
+		*PxOUT |= led & ~PORT_MASK;
+	else
+		*PxOUT &= ~(led & ~PORT_MASK);
+
+}
+
+void leds_hello(led_role_t led)
+{
+	int i, k;
 	volatile int j;
 
 	for (i = 5; i; i--)
 	{
-		led_toggle();
-		j = 0x3fff;
-		while(--j);
+		led_toggle(led);
+		k = DCO_CLK;
+		while (k--)
+		{
+			j = 0x3fff;
+			while(--j);
+		}
 	}
 }

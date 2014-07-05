@@ -4,15 +4,8 @@
 #include <config_lib.h>
 
 void leds_init(void);
-void leds_hello(void);
-void led_toggle(void);
-
-#ifdef OUT1B
-void out1_turn(int on);
-#endif
-#ifdef OUT2B
-void out2_turn(int on);
-#endif
-
+void leds_hello(led_role_t led);
+void led_set(led_role_t led, int val);
+void led_toggle(led_role_t led);
 
 #endif /*_LEDS_H_*/
