@@ -4,6 +4,26 @@
 #define _CONFIG_LIB_H_
 
 /* ==========================================================================
+ *          Features list
+ * ==========================================================================
+ */
+#define FEATURE_SERVO
+#define FEATURE_LEDS
+#undef FEATURE_BUTTONS
+
+/* ==========================================================================
+ * 			Generic macros, used in different features
+ * ==========================================================================
+ */
+#define PORT_1 0
+#define PORT_2 0x100
+#define PORT_MASK PORT_2
+#define TA_SHIFT 9
+#define TA_MASK (0x7 << TA_SHIFT)
+#define TA_X_0 (0x1 << TA_SHIFT)
+#define TA_X_1 (0x2 << TA_SHIFT)
+#define TA_X_2 (0x4 << TA_SHIFT)
+/* ==========================================================================
  * 			Clock section
  * ==========================================================================
  */
@@ -89,12 +109,10 @@
 #endif
 
 /* ============================ LEDS section ================== */
+#ifdef FEATURE_LEDS
 #define LEDS_P1 (BIT3 | BIT4 | BIT5)
 #define LEDS_P2 (BIT0 | BIT1 | BIT4)
 
-#define PORT_1 0
-#define PORT_2 0x100
-#define PORT_MASK PORT_2
 typedef enum {
 	MLF = PORT_2 | BIT1, /* Motor Left Forward */
 	MLR = PORT_2 | BIT0, /* Motor Left Reverse */
@@ -103,8 +121,9 @@ typedef enum {
 	TURBO = PORT_1 | BIT3,
 	LED = PORT_2 | BIT4
 } led_role_t;
+#endif
 
-#if 0
+#ifdef FEATURE_BUTTONS
 /* Buttons section */
 #define BTNP 2
 
@@ -117,6 +136,25 @@ typedef enum {
 */
 #endif
 
+/* ============================ SERVO section ================== */
+#ifdef FEATURE_SERVO
+//#define SERVO_P1 ()
+#define SERVO_P2 (BIT2 | BIT5)
+#define SERVO_T1 (TA_X_1 | TA_X_2)
+
+typedef enum {
+	SRV1 = TA_X_1 | PORT_2 | BIT2, /* JP7 */
+	SRV2 = TA_X_2 | PORT_2 | BIT5  /* JP6 */
+} srv_role_t;
+
+/* In theory - valid pulse width is 1 .. 2 ms.
+ * Really measured for HK15138 range 0.6 .. 2.6 ms
+ */
+#define SERVO_0 600
+#define SERVO_180 2600
+#define SRV_ANGLE_MIN 0
+#define SRV_ANGLE_MAX 1800
+#endif
 /* ==========================================================================
  *			Audio Jack section
  * ==========================================================================
