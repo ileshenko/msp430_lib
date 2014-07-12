@@ -21,16 +21,16 @@ void servo_init(void)
 	/* Port 2 works with TA1 */
 #if SERVO_T1 & TA_X_0
 #error check this code.
-	TA1CCTL0 = OUTMOD_7;			// CCR1 reset/set
-	TA1CCR0 = (SERVO_0 + SERVO_180)>>1;					// CCR1 PWM duty cycle
+	TA1CCTL0 = OUTMOD_7;				// CCR0 reset/set
+	TA1CCR0 = (SERVO_0 + SERVO_180)>>1;	// CCR0 PWM duty cycle
 #endif
 #if SERVO_T1 & TA_X_1
-	TA1CCTL1 = OUTMOD_7;			// CCR1 reset/set
-	TA1CCR1 = (SERVO_0 + SERVO_180)>>1;					// CCR1 PWM duty cycle
+	TA1CCTL1 = OUTMOD_7;				// CCR1 reset/set
+	TA1CCR1 = (SERVO_0 + SERVO_180)>>1;	// CCR1 PWM duty cycle
 #endif
 #if SERVO_T1 & TA_X_2
-	TA1CCTL2 = OUTMOD_7;			// CCR1 reset/set
-	TA1CCR2 = (SERVO_0 + SERVO_180)>>1;					// CCR1 PWM duty cycle
+	TA1CCTL2 = OUTMOD_7;				// CCR2 reset/set
+	TA1CCR2 = (SERVO_0 + SERVO_180)>>1;	// CCR2 PWM duty cycle
 #endif
 #endif
 }

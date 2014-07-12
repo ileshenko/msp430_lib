@@ -24,7 +24,7 @@ void led_toggle(led_role_t led)
 {
 	volatile unsigned char *PxOUT = ((led & PORT_MASK) == PORT_1) ? &P1OUT : &P2OUT;
 
-	*PxOUT ^= led & ~PORT_MASK;
+	*PxOUT ^= led & PIN_MASK;
 }
 
 void led_set(led_role_t led, int val)
@@ -32,9 +32,9 @@ void led_set(led_role_t led, int val)
 	volatile unsigned char *PxOUT = ((led & PORT_MASK) == PORT_1) ? &P1OUT : &P2OUT;
 
 	if (val)
-		*PxOUT |= led & ~PORT_MASK;
+		*PxOUT |= led & PIN_MASK;
 	else
-		*PxOUT &= ~(led & ~PORT_MASK);
+		*PxOUT &= ~(led & PIN_MASK);
 
 }
 

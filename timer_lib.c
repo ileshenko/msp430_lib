@@ -2,6 +2,63 @@
 #include <config_lib.h>
 #include "timer_lib.h"
 
+
+#ifdef FEATURE_RTC
+
+unsigned long jiffies;
+
+static void rtc_init(void)
+{
+	jiffies = 0;
+}
+
+void rtc_sleep(void)
+{
+	_BIS_SR(LPM0_bits + GIE);
+}
+
+void rtc_sleep_for(unsigned int j_ticks)
+{
+	while (j_ticks--)
+		rtc_sleep();
+}
+
+#if defined (CONF_RTC_SRC_A_CCR0)
+#pragma vector=TIMER0_A0_VECTOR
+#elif defined (CONF_RTC_SRC_B_CCR0)
+#pragma vector=TIMER1_A0_VECTOR
+#else
+#error
+#endif
+__interrupt void rtc_isr(void)
+{
+	jiffies++;
+	_BIC_SR_IRQ(LPM0_bits);
+}
+
+
+#if 0 /* Good example for future */
+#pragma vector=TIMER1_A1_VECTOR
+__interrupt void main_timer(void)
+{
+	switch(TA1IV)
+	{
+	case 10: /* TAIFG, timer overflow */
+		break;
+	case 2: /* TACCR1 CCIFG, compare 1 */
+	case 4: /* TACCR2 CCIFG, compare 2 */
+	default: /* impossible! */
+		for (;;);
+	}
+
+	timeout++;
+	jiffies++;
+
+	_BIC_SR_IRQ(LPM0_bits);
+}
+#endif
+#endif
+
 void timer_init(void)
 {
 /* Timer A0 */
@@ -41,8 +98,9 @@ void timer_init(void)
     TA0CCR0 = CONF_TIMER_A0_CCR0_VAL;
 #endif
 
-#ifdef CONF_TIMER_A0_IE
-    TA0CTL |= TAIE;
+#ifdef CONF_TIMER_A_CCR0_IE
+    TA0CCTL0 = CCIE;
+    //TA0CTL |= TAIE;
 #endif
 #endif
 
@@ -83,8 +141,9 @@ void timer_init(void)
     TA1CCR0 = CONF_TIMER_A1_CCR0_VAL;
 #endif
 
-#ifdef CONF_TIMER_A1_IE
-    TA1CTL |= TAIE;
+#ifdef CONF_TIMER_B_CCR0_IE
+    TA1CCTL0 = CCIE;
+    //TA1CTL |= TAIE;
 #endif
 #endif
 
@@ -100,5 +159,10 @@ void timer_init(void)
     TA0CCR0 = 0xF424; /* 125 kHz / 2 */
 #endif
 #endif
+
+#ifdef FEATURE_RTC
+    rtc_init();
+#endif
 }
+
 
